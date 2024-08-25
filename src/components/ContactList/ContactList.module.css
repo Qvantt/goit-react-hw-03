@@ -1,4 +1,9 @@
 .list {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.contactCard {
+  flex: 1 1 calc(33.333% - 10px);
+  box-sizing: border-box;
 }

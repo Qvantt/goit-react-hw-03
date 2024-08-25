@@ -7,6 +7,8 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   background-color: #fff;
+  width: auto;
+  gap: 20px;
 }
 
 .contactInfo {

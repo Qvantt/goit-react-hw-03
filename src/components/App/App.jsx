@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ContactForm from "../ContactForm/ContactForm";
 import ContactList from "../ContactList/ContactList";
 import SearchBox from "../SearchBox/SearchBox";
+import { nanoid } from "nanoid";
 import "./App.module.css";
 
 const initialContacts = [
@@ -29,7 +30,6 @@ const App = () => {
       name,
       number,
     };
-
     setContacts((prevContacts) => [newContact, ...prevContacts]);
   };
 
@@ -56,6 +56,7 @@ const App = () => {
     <div className="App">
       <h1>Phonebook</h1>
       <ContactForm onSubmit={addContact} />
+      <h2>Find contacts by name</h2>
       <SearchBox value={filter} onChange={changeFilter} />
       <ContactList contacts={filteredContacts} deleteContact={deleteContact} />
     </div>

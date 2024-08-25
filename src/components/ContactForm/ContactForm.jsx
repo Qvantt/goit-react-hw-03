@@ -1,44 +1,46 @@
 import React from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
-import { nanoid } from "nanoid";
 import styles from "./ContactForm.module.css";
 
-const validationSchema = Yup.object({
-  name: Yup.string().min(3).max(50).required("Required"),
-  number: Yup.string().min(3).max(50).required("Required"),
-});
-
-const ContactForm = ({ addContact }) => {
-  const handleSubmit = (values, { resetForm }) => {
-    const newContact = { id: nanoid(), ...values };
-    addContact(newContact);
-    resetForm();
-  };
+const ContactForm = ({ onSubmit }) => {
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      number: "",
+    },
+    validationSchema: Yup.object({
+      name: Yup.string()
+        .min(3, "Must be at least 3 characters")
+        .max(50, "Must be 50 characters or less")
+        .required("Required"),
+      number: Yup.string()
+        .min(3, "Must be at least 3 characters")
+        .max(50, "Must be 50 characters or less")
+        .required("Required"),
+    }),
+    onSubmit: (values) => {
+      onSubmit(values);
+      formik.resetForm();
+    },
+  });
 
   return (
-    <Formik
-      initialValues={{ name: "", number: "" }}
-      validationSchema={validationSchema}
-      onSubmit={handleSubmit}>
-      <Form className={styles.form}>
-        <label htmlFor="name" className={styles.label}>
-          Name
-        </label>
-        <Field name="name" id="name" className={styles.input} />
-        <ErrorMessage name="name" component="div" className={styles.error} />
+    <form onSubmit={formik.handleSubmit} className={styles.form}>
+      <label htmlFor="name">Name</label>
+      <input id="name" type="text" {...formik.getFieldProps("name")} />
+      {formik.touched.name && formik.errors.name ? (
+        <div className={styles.error}>{formik.errors.name}</div>
+      ) : null}
 
-        <label htmlFor="number" className={styles.label}>
-          Number
-        </label>
-        <Field name="number" id="number" className={styles.input} />
-        <ErrorMessage name="number" component="div" className={styles.error} />
+      <label htmlFor="number">Number</label>
+      <input id="number" type="text" {...formik.getFieldProps("number")} />
+      {formik.touched.number && formik.errors.number ? (
+        <div className={styles.error}>{formik.errors.number}</div>
+      ) : null}
 
-        <button type="submit" className={styles.button}>
-          Add Contact
-        </button>
-      </Form>
-    </Formik>
+      <button type="submit">Add Contact</button>
+    </form>
   );
 };
 
