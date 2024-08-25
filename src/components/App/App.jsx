@@ -3,7 +3,7 @@ import ContactForm from "../ContactForm/ContactForm";
 import ContactList from "../ContactList/ContactList";
 import SearchBox from "../SearchBox/SearchBox";
 import { nanoid } from "nanoid";
-import "./App.module.css";
+import "./App.css";
 
 const initialContacts = [
   { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
@@ -30,7 +30,7 @@ const App = () => {
       name,
       number,
     };
-    setContacts((prevContacts) => [newContact, ...prevContacts]);
+    setContacts((prevContacts) => [...prevContacts, newContact]); // Додаємо контакт в кінець
   };
 
   const deleteContact = (contactId) => {
